@@ -1,6 +1,6 @@
 jsonp_handler({
  "version": "1",
- "build": 417,
+ "build": 447,
  "title": "dualfilter-sample",
  "minruntime": 1,
  "baseurl": "http://rawgit.com/ksanaforge/dualfilter-sample/master/",
@@ -25,23 +25,23 @@ jsonp_handler({
   "ksana-bundle.js",
   "bundle.js",
   "ksana.js",
-  "http://ya.ksana.tw/kdb/cbeta.kdb"
+  "http://ya.ksana.tw/kdb/yinshun.kdb"
  ],
  "filesizes": [
-  547,
+  632,
   85,
   685017,
-  143725,
-  35763,
-  901
+  143998,
+  35858,
+  860
  ],
  "filedates": [
-  "2015-08-21T12:49:37.855Z",
+  "2015-12-31T16:00:56.408Z",
   "2015-08-21T07:59:03.229Z",
-  "2015-12-31T08:55:50.221Z",
-  "2015-12-31T08:48:40.865Z",
-  "2015-12-31T08:55:53.787Z",
-  "2015-12-31T08:55:27.704Z"
+  "2015-12-31T10:37:56.648Z",
+  "2015-12-31T15:39:56.550Z",
+  "2015-12-31T16:01:33.462Z",
+  "2015-12-31T16:01:23.669Z"
  ],
- "date": "2015-12-31T08:55:54.771Z"
+ "date": "2015-12-31T16:01:34.445Z"
 })

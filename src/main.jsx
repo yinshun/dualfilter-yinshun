@@ -101,8 +101,8 @@ var maincomponent = React.createClass({
       </div>
       <div style={styles.rightpanel}>
 
-      <BreadcrumbTOC toc={this.state.toc} vpos={this.state.vpos} 
-         keyword={this.state.tofind1} onSelect={this.onBreadcrumbSelect}/>
+      <BreadcrumbTOC toc={this.state.toc} vpos={this.state.vpos} hits={this.state.hits} treenodeHits={ksa.treenodehits}
+          onSelect={this.onBreadcrumbSelect} buttonClass="btn btn-link" separator="/"/>
 
         <SegNav size={11} segs={this.state.segnames} value={this.state.txtid} onGoSegment={this.onGoSegment}/>
         <br/>

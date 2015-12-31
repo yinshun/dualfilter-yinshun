@@ -1345,7 +1345,11 @@ var open=function(fn_url,cb) {
 		return;
 	}
 
-	if (!API.initialized) {init(1024*1024,function(){
+	if (!API.initialized) {init(1024*1024,function(bytes,fs){
+		if (!fs) {
+			cb(null);//cannot open , htmlfs is not available
+			return;
+		}
 		_open.apply(this,[fn_url,cb]);
 	},this)} else _open.apply(this,[fn_url,cb]);
 }
@@ -1383,7 +1387,10 @@ var initfs=function(grantedBytes,cb,context) {
 	}, errorHandler);
 }
 var init=function(quota,cb,context) {
-	if (!navigator.webkitPersistentStorage) return;
+	if (!navigator.webkitPersistentStorage) {
+		cb.apply(context,[0,null]);
+		return;
+	}
 	navigator.webkitPersistentStorage.requestQuota(quota, 
 			function(grantedBytes) {
 				initfs(grantedBytes,cb,context);
@@ -2900,7 +2907,6 @@ var hitInRange=function(Q,startvpos,endvpos) {
 
 var realHitInRange=function(Q,startvpos,endvpos,text){
 	var hits=hitInRange(Q,startvpos,endvpos);
-	console.log(hits,startvpos,endvpos)
 	return calculateRealPos(Q,startvpos,text,hits);
 }
 var tagsInRange=function(Q,renderTags,startvpos,endvpos) {
@@ -5288,11 +5294,19 @@ var fillHits=function(searchable,tofind,cb) {
 };
 
 var tryOpen=function(kdbid,cb){
-	if ((window.location.protocol==="file:" && window.process===undefined) 
-	|| window.io===undefined ) {
-		cb("local file mode");
+	var nw=window.process!==undefined && window.process.__node_webkit;
+	var protocol=window.location.protocol;
+	var socketio= window.io!==undefined;
+
+	if ( (protocol==="http:" || protocol==="https:") && !socketio) {
+		cb("http+local file mode");
 		return;
 	}
+
+	if (protocol==="file:" && !nw) {
+		cb("local file mode");
+	}
+
 	kde.open(kdbid,function(err){
 		cb(err);
 	});

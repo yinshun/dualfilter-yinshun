@@ -111,8 +111,8 @@ var maincomponent = React.createClass({displayName: "maincomponent",
       ), 
       React.createElement("div", {style: styles.rightpanel}, 
 
-      React.createElement(BreadcrumbTOC, {toc: this.state.toc, vpos: this.state.vpos, 
-         keyword: this.state.tofind1, onSelect: this.onBreadcrumbSelect}), 
+      React.createElement(BreadcrumbTOC, {toc: this.state.toc, vpos: this.state.vpos, hits: this.state.hits, treenodeHits: ksa.treenodehits, 
+          onSelect: this.onBreadcrumbSelect, buttonClass: "btn btn-link", separator: "/"}), 
 
         React.createElement(SegNav, {size: 11, segs: this.state.segnames, value: this.state.txtid, onGoSegment: this.onGoSegment}), 
         React.createElement("br", null), 
@@ -201,10 +201,8 @@ var BreadcrumbTOC=React.createClass({
 	,renderCrumbs:function() {
 		var dropdown=require("./dropdown_bs");
 		var cur=0,toc=this.props.toc,out=[],level=0;
+		var children=getChildren(toc,cur),nextchildren;
 		do {
-			var children=getChildren(toc,cur);
-			if (!children.length) break;
-
 			var selected = this.closestItem(children,this.props.vpos) ;
 			cur=children[selected];
 
@@ -216,11 +214,17 @@ var BreadcrumbTOC=React.createClass({
 
 				return {t:toc[child].t,idx:child,hit:hit,vpos:toc[child].vpos};
 			}.bind(this));
+
+			nextchildren=getChildren(toc,cur);
+
 			out.push(E(dropdown,{onSelect:this.onSelect,level:level,
-				separator:this.props.separator,buttonClass:this.props.buttonClass,
+				separator:nextchildren.length?this.props.separator:null,//last separator is not shown
+				buttonClass:this.props.buttonClass,
 				key:out.length,selected:selected,items:items,keyword:this.props.keyword}) );
 			//if (out.length>5) break;
 			level++;
+			if (!nextchildren.length) break;
+			children=nextchildren;
 		} while (true);
 		return out;
 	}
@@ -276,15 +280,13 @@ var BreadCrumbDropdown=React.createClass({
 		var t=this.renderKeyword(item.t);
 		return E("li",{key:idx,"data-idx":idx},E("a",{style:style,onClick:this.onSelect},t,hit));
 	}
-	,blur:function(e){
-		e.target.parentElement.classList.remove("open");
-	}
+
 	,open:function(e){
 		e.target.parentElement.classList.add("open");
-		e.target.nextSibling.focus();
 	}
 	,render:function(){
 		var item=this.props.items[this.props.selected];
+		if (!item)return E("span");
 		var title=item.t;
 
 		item.hit&&(title=[E("span",{key:1},item.t),E("span",{key:2,className:"hl0 pull-right"},item.hit||"")]);
@@ -292,9 +294,7 @@ var BreadCrumbDropdown=React.createClass({
 				E("button",{key:"drop","data-toggle":"dropdown",className:this.props.buttonClass||"btn btn-default",
 					onClick:this.open}, this.props.items[this.props.selected].t ),
 				this.props.separator,
-				E("ul",{className:"dropdown-menu open",id:"for_shutting_warning_up"
-					,onBlur:this.blur
-					,noCaret:true,title:this.renderKeyword(title)},
+				E("ul",{className:"dropdown-menu open",id:"for_shutting_warning_up",title:this.renderKeyword(title)},
 			this.props.items.map(this.renderItem)));
 	}
 });

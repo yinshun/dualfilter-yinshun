@@ -17,7 +17,7 @@ var styles={
 }
 var maincomponent = React.createClass({
   getInitialState:function() {
-    return {items:[],itemclick:" ",text:"",tofind1:"",q:"",toc:[],
+    return {items:[],itemclick:" ",text:"",tofind1:"",q:"",toc:[],rawhits:[],
             vpos:0,localmode:false,ready:false,segnames:[],txtid:"",
             tofind1:localStorage.getItem("yinshun-tofind1")||"般若",q:localStorage.getItem("yinshun-q")||"淨土"};
   }
@@ -41,9 +41,7 @@ var maincomponent = React.createClass({
       }
       
       ksa.toc({db:db,q:q,tocname:"head"},function(err,res){
-
-
-        that.setState({items:items,tofind1:tofind1,q:q,toc:res.toc},function(){
+        that.setState({items:items,tofind1:tofind1,q:q,toc:res.toc,rawhits:res.hits},function(){
           that.fetchText(items[0].vpos);
         });
         if (!that.state.segnames.length) {
@@ -101,7 +99,7 @@ var maincomponent = React.createClass({
       </div>
       <div style={styles.rightpanel}>
 
-      <BreadcrumbTOC toc={this.state.toc} vpos={this.state.vpos} hits={this.state.hits} treenodeHits={ksa.treenodehits}
+      <BreadcrumbTOC toc={this.state.toc} vpos={this.state.vpos} hits={this.state.rawhits} treenodeHits={ksa.treenodehits}
           onSelect={this.onBreadcrumbSelect} buttonClass="btn btn-link" separator="/"/>
 
         <SegNav size={11} segs={this.state.segnames} value={this.state.txtid} onGoSegment={this.onGoSegment}/>

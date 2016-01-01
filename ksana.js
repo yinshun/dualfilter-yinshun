@@ -1,6 +1,6 @@
 jsonp_handler({
  "version": "1",
- "build": 447,
+ "build": 449,
  "title": "dualfilter-sample",
  "minruntime": 1,
  "baseurl": "http://rawgit.com/ksanaforge/dualfilter-sample/master/",
@@ -32,7 +32,7 @@ jsonp_handler({
   85,
   685017,
   143998,
-  35858,
+  35885,
   860
  ],
  "filedates": [
@@ -40,8 +40,8 @@ jsonp_handler({
   "2015-08-21T07:59:03.229Z",
   "2015-12-31T10:37:56.648Z",
   "2015-12-31T15:39:56.550Z",
-  "2015-12-31T16:01:33.462Z",
-  "2015-12-31T16:01:23.669Z"
+  "2016-01-01T04:43:46.719Z",
+  "2016-01-01T04:41:19.060Z"
  ],
- "date": "2015-12-31T16:01:34.445Z"
+ "date": "2016-01-01T04:43:47.705Z"
 })
